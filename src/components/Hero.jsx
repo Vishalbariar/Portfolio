@@ -11,7 +11,7 @@ const roles = [
 ]
 
 const stats = [
-  { value: '8.98', label: 'CGPA' },
+  { value: '9.2', label: '2nd Year YGPA' },
   { value: '2', label: 'Internships' },
   { value: '165+', label: 'LeetCode solved' },
   { value: 'SIH', label: '2026 Participant' },
