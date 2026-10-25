@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { FaGithub, FaLinkedin } from 'react-icons/fa'
 import { SiLeetcode, SiKaggle } from 'react-icons/si'
+import { FiDownload } from 'react-icons/fi'
 import RippleAvatar from './RippleAvatar'
 
 const roles = [
@@ -124,9 +125,9 @@ function Hero() {
             <a
               href="/Vishal_Bariar_Resume.pdf"
               download
-              className="rounded-full border border-white/25 bg-white/5 px-7 py-3 font-semibold text-white backdrop-blur transition hover:scale-105 hover:border-sky-300/60 hover:bg-white/10 active:scale-95"
+              className="inline-flex items-center justify-center gap-2 rounded-full border border-white/25 bg-white/5 px-7 py-3 font-semibold text-white backdrop-blur transition hover:scale-105 hover:border-sky-300/60 hover:bg-white/10 active:scale-95"
             >
-              Download Resume ↓
+              Download Resume <FiDownload aria-hidden="true" />
             </a>
           </div>
 

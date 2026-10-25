@@ -1,27 +1,28 @@
+import { FiTerminal, FiLayout, FiServer, FiActivity, FiBookOpen, FiCpu, FiTool } from 'react-icons/fi'
 import GlassCard from './GlassCard'
 import SectionHeading from './SectionHeading'
 
 const skillGroups = [
   {
-    icon: '⌨️',
+    Icon: FiTerminal,
     title: 'Languages',
     skills: ['C++', 'Python', 'C', 'Java', 'JavaScript', 'Verilog'],
     strong: ['C++', 'Python'],
   },
   {
-    icon: '🎨',
+    Icon: FiLayout,
     title: 'Frontend',
     skills: ['HTML', 'CSS', 'JavaScript', 'React.js', 'Tailwind CSS', 'Three.js'],
     strong: ['React.js'],
   },
   {
-    icon: '🗄️',
+    Icon: FiServer,
     title: 'Backend',
     skills: ['Node.js', 'Express.js', 'MongoDB', 'REST APIs'],
     strong: [],
   },
   {
-    icon: '🤖',
+    Icon: FiActivity,
     title: 'Machine Learning',
     skills: [
       'Scikit-learn',
@@ -39,45 +40,22 @@ const skillGroups = [
     wide: true,
   },
   {
-    icon: '🧠',
+    Icon: FiBookOpen,
     title: 'CS Core',
-    skills: [
-      'Data Structures & Algorithms',
-      'OOP',
-      'Operating Systems',
-      'DBMS',
-      'Computer Networks',
-    ],
+    skills: ['Data Structures & Algorithms', 'OOP', 'Operating Systems', 'DBMS', 'Computer Networks'],
     strong: ['Data Structures & Algorithms'],
   },
   {
-    icon: '🔌',
+    Icon: FiCpu,
     title: 'Embedded & EDA',
-    skills: [
-      'Raspberry Pi',
-      'Arduino Uno',
-      'STM32',
-      'Keil',
-      'Proteus',
-      'Vivado',
-      'KiCad',
-      'CST Studio Suite',
-    ],
+    skills: ['Raspberry Pi', 'Arduino Uno', 'STM32', 'Keil', 'Proteus', 'Vivado', 'KiCad', 'CST Studio Suite'],
     strong: ['Raspberry Pi'],
     wide: true,
   },
   {
-    icon: '🛠️',
+    Icon: FiTool,
     title: 'Tools & Cloud',
-    skills: [
-      'Git',
-      'GitHub',
-      'Oracle Cloud (OCI)',
-      'VS Code',
-      'MS Excel',
-      'MS Word',
-      'MS PowerPoint',
-    ],
+    skills: ['Git', 'GitHub', 'Oracle Cloud (OCI)', 'VS Code', 'MS Excel', 'MS Word', 'MS PowerPoint'],
     strong: ['Git'],
   },
 ]
@@ -87,17 +65,18 @@ function Skills() {
     <section id="skills" className="scroll-mt-24 px-4 py-24 sm:px-6">
       <div className="mx-auto max-w-6xl">
         <SectionHeading
+          number="02"
           label="Skills"
           title="What I Work With"
-          subtitle="From full-stack web apps to ML models and circuits. Glowing chips mark my strongest tools."
+          subtitle="From full-stack web apps to ML models and circuits. Highlighted chips mark my strongest tools."
         />
 
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {skillGroups.map((group) => (
             <GlassCard key={group.title} className={group.wide ? 'lg:col-span-2' : ''}>
               <div className="flex items-center gap-3">
-                <span className="flex h-11 w-11 items-center justify-center rounded-2xl border border-white/10 bg-white/5 text-2xl">
-                  {group.icon}
+                <span className="flex h-11 w-11 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-sky-200">
+                  <group.Icon aria-hidden="true" className="text-xl" />
                 </span>
                 <h3 className="text-lg font-semibold text-white">{group.title}</h3>
               </div>

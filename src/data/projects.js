@@ -1,7 +1,18 @@
+import {
+  FiShield,
+  FiGlobe,
+  FiTrendingDown,
+  FiCreditCard,
+  FiFilm,
+  FiRadio,
+  FiShoppingCart,
+  FiStar,
+} from 'react-icons/fi'
+
 export const projects = [
   {
     title: 'MARS: Mine Rescue AI System',
-    icon: '⛏️',
+    Icon: FiShield,
     badge: 'Smart India Hackathon 2026',
     categories: ['ML', 'Electronics', 'Web'],
     featured: true,
@@ -18,7 +29,7 @@ export const projects = [
   },
   {
     title: 'Sakthi Dental Clinic Website',
-    icon: '🦷',
+    Icon: FiGlobe,
     badge: 'Internship · ShadowFox',
     categories: ['Web'],
     description:
@@ -29,7 +40,7 @@ export const projects = [
   },
   {
     title: 'Customer Churn Prediction',
-    icon: '📉',
+    Icon: FiTrendingDown,
     badge: 'Internship · CodSoft',
     categories: ['ML'],
     description:
@@ -44,7 +55,7 @@ export const projects = [
   },
   {
     title: 'Credit Card Fraud Detection',
-    icon: '💳',
+    Icon: FiCreditCard,
     badge: 'Internship · CodSoft',
     categories: ['ML'],
     description:
@@ -59,7 +70,7 @@ export const projects = [
   },
   {
     title: 'Movie Genre Classifier',
-    icon: '🎬',
+    Icon: FiFilm,
     badge: 'Internship · CodSoft',
     categories: ['ML'],
     description:
@@ -74,7 +85,7 @@ export const projects = [
   },
   {
     title: 'DRA-Based MIMO Antenna',
-    icon: '📡',
+    Icon: FiRadio,
     badge: 'Ongoing',
     categories: ['Electronics'],
     description:
@@ -85,7 +96,7 @@ export const projects = [
   },
   {
     title: 'Shopping Kart',
-    icon: '🛒',
+    Icon: FiShoppingCart,
     badge: 'Python · OOP',
     categories: ['Software'],
     description:
@@ -96,13 +107,13 @@ export const projects = [
   },
   {
     title: 'Cosmic Portfolio',
-    icon: '🌌',
+    Icon: FiStar,
     badge: 'This website',
     categories: ['Web'],
     description:
       "The site you're on: a responsive React portfolio with a real-time WebGL shader background, 3D stars and interactive touch effects.",
     tags: ['React', 'Tailwind CSS', 'Three.js', 'GLSL'],
-    github: '',
-    live: '',
+    github: 'https://github.com/Vishalbariar/Portfolio',
+    live: '', // paste your Vercel link here, e.g. 'https://vishal-bariar.vercel.app'
   },
 ]

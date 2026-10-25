@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { FiMenu, FiX } from 'react-icons/fi'
 
 const links = [
   { name: 'Home', href: '#home' },
@@ -12,7 +13,7 @@ function Navbar() {
   const [isOpen, setIsOpen] = useState(false)
 
   return (
-        <header className="fixed inset-x-0 top-4 z-50 animate-fade-down px-4">
+    <header className="fixed inset-x-0 top-4 z-50 animate-fade-down px-4">
       {/* Floating glass pill */}
       <nav className="mx-auto flex max-w-5xl items-center justify-between rounded-full border border-white/15 bg-white/5 py-2 pl-6 pr-2 shadow-[0_0_30px_rgba(186,230,253,0.08)] backdrop-blur-xl">
         {/* Logo */}
@@ -20,7 +21,7 @@ function Navbar() {
           href="#home"
           className="bg-linear-to-r from-white via-slate-200 to-sky-300 bg-clip-text text-lg font-bold text-transparent"
         >
-          Vishal Bariar.
+          Vishal Bariar
         </a>
 
         {/* Desktop links */}
@@ -52,7 +53,7 @@ function Navbar() {
           aria-label="Toggle menu"
           aria-expanded={isOpen}
         >
-          {isOpen ? '✕' : '☰'}
+          {isOpen ? <FiX aria-hidden="true" /> : <FiMenu aria-hidden="true" />}
         </button>
       </nav>
 

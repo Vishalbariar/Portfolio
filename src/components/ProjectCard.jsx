@@ -1,4 +1,5 @@
 import { useRef } from 'react'
+import { FiArrowUpRight } from 'react-icons/fi'
 
 function ProjectCard({ project, featured = false }) {
   const cardRef = useRef()
@@ -7,9 +8,9 @@ function ProjectCard({ project, featured = false }) {
   const handleMove = (e) => {
     const card = cardRef.current
     const rect = card.getBoundingClientRect()
-    const x = (e.clientX - rect.left) / rect.width // 0 (left) → 1 (right)
-    const y = (e.clientY - rect.top) / rect.height // 0 (top) → 1 (bottom)
-    const tilt = featured ? 4 : 8 // big card tilts less
+    const x = (e.clientX - rect.left) / rect.width
+    const y = (e.clientY - rect.top) / rect.height
+    const tilt = featured ? 4 : 8
 
     card.style.transform = `rotateX(${(0.5 - y) * tilt}deg) rotateY(${(x - 0.5) * tilt}deg)`
     card.style.setProperty('--x', `${x * 100}%`)
@@ -43,8 +44,8 @@ function ProjectCard({ project, featured = false }) {
         <div className="relative">
           {/* Icon + badge */}
           <div className="flex items-start justify-between gap-4">
-            <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border border-white/10 bg-white/5 text-2xl">
-              {project.icon}
+            <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-sky-200">
+              <project.Icon aria-hidden="true" className="text-xl" />
             </span>
             <span className="rounded-full border border-sky-200/30 bg-sky-200/10 px-3 py-1 text-xs font-medium text-sky-100">
               {project.badge}
@@ -61,12 +62,10 @@ function ProjectCard({ project, featured = false }) {
 
           {/* Key numbers */}
           {project.stats?.length > 0 && (
-            <div className={`mt-5 grid grid-cols-2 gap-3 ${featured ? 'sm:grid-cols-3 sm:max-w-xl' : ''}`}>
+            <div className={`mt-5 grid grid-cols-2 gap-3 ${featured ? 'sm:max-w-xl sm:grid-cols-3' : ''}`}>
               {project.stats.map((stat) => (
                 <div key={stat.label} className="rounded-2xl border border-white/10 bg-black/30 px-4 py-3">
-                  <p className="text-lg font-bold text-white drop-shadow-[0_0_10px_rgba(186,230,253,0.5)]">
-                    {stat.value}
-                  </p>
+                  <p className="text-lg font-bold text-white">{stat.value}</p>
                   <p className="text-xs text-slate-400">{stat.label}</p>
                 </div>
               ))}
@@ -90,9 +89,9 @@ function ProjectCard({ project, featured = false }) {
                   href={project.github}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="rounded-full border border-white/20 bg-white/5 px-5 py-2 text-sm font-medium text-white transition hover:border-sky-200/60 hover:bg-white/10 active:scale-95"
+                  className="inline-flex items-center gap-1.5 rounded-full border border-white/20 bg-white/5 px-5 py-2 text-sm font-medium text-white transition hover:border-sky-200/60 hover:bg-white/10 active:scale-95"
                 >
-                  GitHub ↗
+                  GitHub <FiArrowUpRight aria-hidden="true" />
                 </a>
               )}
               {project.live && (
@@ -100,9 +99,9 @@ function ProjectCard({ project, featured = false }) {
                   href={project.live}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="rounded-full bg-linear-to-r from-white via-slate-200 to-sky-200 px-5 py-2 text-sm font-semibold text-slate-950 transition hover:shadow-[0_0_16px_rgba(186,230,253,0.5)] active:scale-95"
+                  className="inline-flex items-center gap-1.5 rounded-full bg-linear-to-r from-white via-slate-200 to-sky-200 px-5 py-2 text-sm font-semibold text-slate-950 transition hover:shadow-[0_0_16px_rgba(186,230,253,0.5)] active:scale-95"
                 >
-                  Live Demo ↗
+                  Live Demo <FiArrowUpRight aria-hidden="true" />
                 </a>
               )}
             </div>

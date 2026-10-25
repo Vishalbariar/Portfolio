@@ -13,6 +13,7 @@ const vertexShader = `
   }
 `
 
+// Calm, professional space: deep navy, faint haze, two soft glows
 const fragmentShader = `
   uniform float uTime;
   uniform float uAspect;
@@ -49,53 +50,26 @@ const fragmentShader = `
 
   void main() {
     vec2 p = (vUv - 0.5) * vec2(uAspect, 1.0);
-    float t = uTime * 0.08;
+    float t = uTime * 0.03;
 
-    // Parallax: gas moves opposite to the pointer, up when scrolling,
-    // and slowly drifts downward (light falling toward you)
-    vec2 gp = p + uPointer * 0.08 - vec2(0.0, uScrollMove * 0.35) + vec2(0.0, t * 0.6);
+    // 1. Base: deep navy at the top, fading to black at the bottom
+    vec3 col = mix(vec3(0.0, 0.0, 0.01), vec3(0.02, 0.04, 0.08), vUv.y);
 
-    // Desktop (wide screen): light behind the avatar on the right
-    // Phone (tall screen): light at the top centre, above the avatar
-    float sideX = uAspect > 1.0 ? uAspect * 0.25 : 0.0;
-    vec2 source = vec2(sideX + uPointer.x * 0.25, 0.6 + uPointer.y * 0.06);
-    vec2 d = p - source;
-    float dist = length(d);
-    float angle = atan(d.x, -d.y) + sin(uTime * 0.25) * 0.08; // rays sway
+    // 2. Very faint drifting haze (moves with pointer and scroll)
+    vec2 gp = p * 1.5 + uPointer * 0.05 - vec2(0.0, uScrollMove * 0.3);
+    vec2 q = vec2(fbm(gp + t), fbm(gp - t + 4.0));
+    float haze = fbm(gp + q * 1.2 + t * 0.5);
+    col += vec3(0.25, 0.4, 0.6) * smoothstep(0.45, 0.9, haze) * 0.12;
 
-    float pulse = 0.85 + 0.15 * sin(uTime * 0.9); // breathing glow
+    // 3. Two soft glows that drift slowly and lean toward the pointer
+    vec2 g1 = vec2(-0.45 * uAspect + sin(t * 2.0) * 0.1, 0.35) + uPointer * 0.06;
+    vec2 g2 = vec2(0.45 * uAspect + cos(t * 1.7) * 0.1, -0.1) + uPointer * 0.04;
+    col += vec3(0.35, 0.55, 0.85) * exp(-length(p - g1) * 3.0) * 0.18;
+    col += vec3(0.55, 0.65, 0.85) * exp(-length(p - g2) * 3.5) * 0.10;
 
-    vec3 cyan    = vec3(0.10, 0.70, 1.00);
-    vec3 magenta = vec3(0.85, 0.20, 0.95);
-    vec3 orange  = vec3(1.00, 0.45, 0.12);
-    vec3 warm    = vec3(1.00, 0.93, 0.80);
-
-    // 1. Swirling nebula gas
-    vec2 q = vec2(fbm(gp * 2.0 + t), fbm(gp * 2.0 - t + 5.2));
-    float gas = fbm(gp * 2.5 + q * 1.8 + t * 0.6);
-
-    vec3 gasColor = mix(cyan, magenta, smoothstep(0.3, 0.7, q.x));
-    gasColor = mix(gasColor, orange, smoothstep(0.55, 0.8, q.y));
-    float density = smoothstep(0.4, 0.85, gas);
-    float lit = exp(-dist * 1.3);
-    vec3 col = gasColor * density * (0.2 + 1.4 * lit * pulse);
-
-    // 2. Light rays pouring down (shimmering)
-    float rays = fbm(vec2(angle * 9.0, uTime * 0.3));
-    rays = pow(rays, 3.0) * 4.0;
-    float cone = smoothstep(1.4, 0.1, abs(angle));
-    col += warm * rays * cone * exp(-dist * 1.1) * 0.45 * pulse;
-
-    // 3. Brilliant glowing core (breathing)
-    col += warm * exp(-dist * 7.0) * 2.0 * pulse;
-    col += magenta * exp(-dist * 2.5) * 0.25;
-    col += cyan * exp(-dist * 4.0) * 0.2;
-
-    // Dim as the user scrolls down
-    col *= 1.0 - uScroll * 0.55;
-
-    // Tone mapping: soft glow instead of flat white
-    col = 1.0 - exp(-col * 1.5);
+    // 4. Darker edges (vignette) and slight dimming on scroll
+    col *= smoothstep(1.6, 0.2, length(p));
+    col *= 1.0 - uScroll * 0.3;
 
     gl_FragColor = vec4(col, 1.0);
   }
@@ -103,7 +77,7 @@ const fragmentShader = `
 
 /* ---------- REACT COMPONENTS ---------- */
 
-function CosmicLight() {
+function CalmSpace() {
   const materialRef = useRef()
 
   const uniforms = useMemo(
@@ -123,12 +97,8 @@ function CosmicLight() {
 
     u.uTime.value = state.clock.elapsedTime
     u.uAspect.value = state.size.width / state.size.height
-
-    // Smoothly follow the pointer
     u.uPointer.value.x = MathUtils.lerp(u.uPointer.value.x, state.pointer.x, 0.05)
     u.uPointer.value.y = MathUtils.lerp(u.uPointer.value.y, state.pointer.y, 0.05)
-
-    // Scroll: dimming (capped at 1) and smooth parallax movement
     u.uScroll.value = Math.min(scrollAmount, 1)
     u.uScrollMove.value = MathUtils.lerp(u.uScrollMove.value, scrollAmount, 0.1)
   })
@@ -166,13 +136,9 @@ function StarField() {
         <Stars radius={80} depth={60} count={5000} factor={4} saturation={0} fade speed={1.5} />
       </group>
 
-      {/* Light dust drifting toward you, near the light */}
-      <Sparkles count={100} scale={[12, 6, 6]} position={[0, 3, 2]} size={4} speed={0.5} color="#fff7e0" />
-
-      {/* Coloured glowing particles */}
-      <Sparkles count={70} scale={[20, 12, 6]} size={6} speed={0.3} color="#7dd3fc" />
-      <Sparkles count={50} scale={[20, 12, 6]} size={7} speed={0.25} color="#e879f9" />
-      <Sparkles count={50} scale={[20, 12, 6]} size={5} speed={0.35} color="#fdba74" />
+      {/* Silver and soft-blue sparkles (matching the site's colours) */}
+      <Sparkles count={70} scale={[20, 12, 6]} size={4} speed={0.25} color="#e2e8f0" />
+      <Sparkles count={40} scale={[20, 12, 6]} size={5} speed={0.3} color="#7dd3fc" />
     </group>
   )
 }
@@ -186,7 +152,7 @@ function SpaceBackground() {
         eventSource={document.getElementById('root')}
         eventPrefix="client"
       >
-        <CosmicLight />
+        <CalmSpace />
         <StarField />
       </Canvas>
     </div>

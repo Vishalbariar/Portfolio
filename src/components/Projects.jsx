@@ -19,13 +19,14 @@ function Projects() {
     <section id="projects" className="scroll-mt-24 px-4 py-24 sm:px-6">
       <div className="mx-auto max-w-6xl">
         <SectionHeading
+          number="03"
           label="Projects"
           title="Things I've Built"
           subtitle="From a hackathon AI system to client websites and machine learning models."
         />
 
         {/* Filter buttons */}
-        <div className="mb-10 flex flex-wrap justify-center gap-2" role="group" aria-label="Filter projects">
+        <div className="mb-10 flex flex-wrap justify-start gap-2" role="group" aria-label="Filter projects">
           {filters.map((filter) => (
             <button
               key={filter}
